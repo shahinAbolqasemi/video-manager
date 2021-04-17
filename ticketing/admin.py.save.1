@@ -1,0 +1,21 @@
+from django.contrib.admin import ModelAdmin, site
+from .models import TicketCategory, Priority, TicketStatus, Ticket
+
+
+class TicketCategoryAdmin(ModelAdmin):
+    list_display = ['pk', 'title', 'creator', 'created_date', 'modified_date']
+
+class PriorityAdmin(ModelAdmin):
+    list_display = ['pk', 'title', 'creator', 'created_date', 'modified_date']
+
+class TicketStatusAdmin(ModelAdmin):
+    list_display = ['pk', 'title']
+
+class TicketAdmin(ModelAdmin):
+    list_display = ['pk', 'subject', 'related_priority', 'related_ticket_category', 'related_subscription']
+
+
+site.register(TicketCategory, TicketCategoryAdmin)
+site.register(Priority, PriorityAdmin)
+site.register(TicketStatus, TicketStatusAdmin)
+site.register(Ticket, TicketAdmin)

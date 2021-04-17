@@ -1,0 +1,18 @@
+from django.db.models import Model, DateTimeField, BooleanField, CharField, ForeignKeyfrom django.contrib.auth.models import AbstractUser
+
+
+class BaseModel(Model):
+    created_date = DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
+    modified_date = DateTimeField(auto_now=True, verbose_name='زمان بروز رسانی')
+    is_active = BooleanField(default=True, verbose_name='فعال')
+    creator = ForeignKey(User, on_delete=SET_NULL, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class User(AbstractUser):
+    cellphone = CharField(max_length=11, blank=True, null=True)
+
+    def __str__(self):
+        return self.username
