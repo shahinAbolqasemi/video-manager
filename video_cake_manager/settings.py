@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'base',
     'plan',
     'ticketing',
+    'django_filters',
 ]
 
 REST_FRAMEWORK = {
@@ -109,7 +110,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'video_cake_manager',
         'USER': 'postgres',
-        'PASSWORD': 'ettes@l@2021',
+        'PASSWORD': 'sh09338531066',
         'HOST': 'localhost',
         'PORT': '5432'
     }
