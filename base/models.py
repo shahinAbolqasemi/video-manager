@@ -12,6 +12,18 @@ class User(AbstractUser):
         verbose_name = 'کاربر'
         verbose_name_plural = 'کاربرها'
 
+    def check_group(self, group_name):
+        if self.groups.filter(name=group_name).exists():
+            return True
+        else:
+            return False
+
+    def check_any_groups(self, groups_name):
+        if self.groups.filter(name__in=groups_name).exists():
+            return True
+        else:
+            return False
+
 
 class BaseModel(Model):
     created_date = DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')

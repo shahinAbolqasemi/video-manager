@@ -65,3 +65,5 @@ class ParticipantAssignment(BaseModel):
                 name='unique_session_participant'
             ),
         ]
+
+# class
