@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from base.views import BaseViewSet
-from .models import Service, Subscription, SubscriptionServiceAssignment, ServiceField, SubscriptionServiceAssignmentField
-from .serializers import ServiceSerializer, SubscriptionSerializer, SubscriptionServiceAssignmentSerializer, ServiceFieldSerializer, SubscriptionServiceAssignmentFieldSerializer
+from .models import Service, Subscription, SubscriptionServiceAssignment, ServiceField, \
+    SubscriptionServiceAssignmentField, ServiceFieldAssignment
+from .serializers import ServiceSerializer, SubscriptionSerializer, SubscriptionServiceAssignmentSerializer, \
+    ServiceFieldSerializer, SubscriptionServiceAssignmentFieldSerializer, ServiceFieldAssignmentSerializer
+from rest_framework import permissions
 
 
 class ServiceViewSet(BaseViewSet):
@@ -28,3 +31,9 @@ class ServiceFieldViewSet(BaseViewSet):
 class SubscriptionServiceAssignmentFieldViewSet(BaseViewSet):
     queryset = SubscriptionServiceAssignmentField.objects.all()
     serializer_class = SubscriptionServiceAssignmentFieldSerializer
+
+
+class ServiceFieldAssignmentViewSet(BaseViewSet):
+    queryset = ServiceFieldAssignment.objects.all()
+    serializer_class = ServiceFieldAssignmentSerializer
+    permission_classes = [permissions.IsAuthenticated]

@@ -31,7 +31,8 @@ class Subscription(BaseModel):
 
 
 class SubscriptionServiceAssignment(BaseModel):
-    related_subscription = ForeignKey(Subscription, on_delete=SET_NULL, blank=True, null=True, verbose_name='اشتراک مربوطه')
+    related_subscription = ForeignKey(Subscription, on_delete=SET_NULL, blank=True, null=True,
+                                      verbose_name='اشتراک مربوطه')
     related_service = ForeignKey(Service, on_delete=SET_NULL, blank=True, null=True, verbose_name='سرویس مربوطه')
 
     def __str__(self):
@@ -75,4 +76,17 @@ class SubscriptionServiceAssignmentField(BaseModel):
             Index(fields=['related_subscription_service_assignment']),
             Index(fields=['related_service_field']),
             Index(fields=['related_subscription_service_assignment', 'related_service_field'])
+        ]
+
+
+class ServiceFieldAssignment(BaseModel):
+    related_service = ForeignKey(to=Service, on_delete=CASCADE)
+    related_service_field = ForeignKey(to=ServiceField, on_delete=CASCADE)
+
+    class Meta:
+        verbose_name = 'فیلد سرویس'
+        verbose_name_plural = 'فیلد های سرویس'
+        indexes = [
+            Index(fields=['related_service']),
+            Index(fields=['related_service_field']),
         ]
