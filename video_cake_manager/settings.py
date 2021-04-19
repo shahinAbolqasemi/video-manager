@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'plan',
     'ticketing',
     'django_filters',
+    'reservation.apps.ReservationAppConfig',
 ]
 
 REST_FRAMEWORK = {
