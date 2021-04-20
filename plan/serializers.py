@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from .models import Service, Subscription, SubscriptionServiceAssignment, ServiceField, \
-    SubscriptionServiceAssignmentField, ServiceFieldAssignment
+    SubscriptionServiceAssignmentField, ServiceFieldAssignment, SubscriptionAssignment
 
 
 class ServiceSerializer(ModelSerializer):
@@ -36,4 +36,10 @@ class SubscriptionServiceAssignmentFieldSerializer(ModelSerializer):
 class ServiceFieldAssignmentSerializer(ModelSerializer):
     class Meta:
         model = ServiceFieldAssignment
+        fields = '__all__'
+
+
+class SubscriptionAssignmentSerializer(ModelSerializer):
+    class Meta:
+        model = SubscriptionAssignment
         fields = '__all__'
