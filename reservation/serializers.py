@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from reservation.models import Participant, ParticipantAssignment, SessionRequest
+from reservation.models import Participant, ParticipantAssignment, ServiceRequest
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
@@ -26,9 +26,9 @@ class ParticipantAssignmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class SessionRequestAdminSerializer(serializers.ModelSerializer):
+class ServiceRequestAdminSerializer(serializers.ModelSerializer):
     """
-    The serializer for SessionRequest model for admin
+    The serializer for ServiceRequest model for admin
     """
     related_creator = serializers.PrimaryKeyRelatedField(read_only=True)
     related_customer = serializers.PrimaryKeyRelatedField(
@@ -39,13 +39,13 @@ class SessionRequestAdminSerializer(serializers.ModelSerializer):
     related_participants = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
-        model = SessionRequest
+        model = ServiceRequest
         fields = '__all__'
 
 
-class SessionRequestSchedulerSerializer(serializers.ModelSerializer):
+class ServiceRequestSchedulerSerializer(serializers.ModelSerializer):
     """
-    The serializer for SessionRequest model for scheduler
+    The serializer for ServiceRequest model for scheduler
     """
     related_creator = serializers.PrimaryKeyRelatedField(read_only=True)
     related_customer = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -57,17 +57,17 @@ class SessionRequestSchedulerSerializer(serializers.ModelSerializer):
     related_participants = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
-        model = SessionRequest
+        model = ServiceRequest
         fields = '__all__'
 
 
-class SessionRequestCustomerSerializer(serializers.ModelSerializer):
+class ServiceRequestCustomerSerializer(serializers.ModelSerializer):
     """
-    The serializer for SessionRequest model for customer
+    The serializer for ServiceRequest model for customer
     """
 
     class Meta:
-        model = SessionRequest
+        model = ServiceRequest
         fields = [
             'id',
             'unique_id',
