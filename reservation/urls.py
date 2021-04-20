@@ -1,9 +1,9 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import SessionRequestViewSet, ParticipantViewSet, ParticipantAssignmentViewSet
+from .views import ServiceRequestViewSet, ParticipantViewSet, ParticipantAssignmentViewSet
 
 router = DefaultRouter()
-router.register(r'session-requests', SessionRequestViewSet, basename='session_request')
+router.register(r'service-requests', ServiceRequestViewSet, basename='session_request')
 router.register(r'participants', ParticipantViewSet, basename='participants')
 router.register(r'participant-assignments', ParticipantAssignmentViewSet, basename='participant_assignments')
 

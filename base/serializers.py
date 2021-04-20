@@ -55,3 +55,4 @@ class UserCustomerSerializer(serializers.ModelSerializer):
             'last_name',
             'email',
         ]
+

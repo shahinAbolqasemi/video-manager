@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from base.models import BaseModel
 
 
-class SessionRequest(BaseModel):
+class ServiceRequest(BaseModel):
     nodes_count = models.PositiveIntegerField(verbose_name=_('nodes count'))
     groups_count = models.PositiveIntegerField(verbose_name=_('group count'))
     unique_id = models.CharField(verbose_name=_('unique id'), max_length=5, unique=True)
@@ -42,11 +42,11 @@ class Participant(BaseModel):
 
 class ParticipantAssignment(BaseModel):
     related_session_request = models.ForeignKey(
-        verbose_name=_('session request'),
-        to='SessionRequest',
+        verbose_name=_('service request'),
+        to='ServiceRequest',
         on_delete=models.PROTECT,
-        related_name='%(class)s_session_request_related',
-        related_query_name='%(class)s_session_request'
+        related_name='%(class)s_service_request_related',
+        related_query_name='%(class)s_service_request'
     )
     related_participant = models.ForeignKey(
         verbose_name=_('participant request'),
@@ -65,5 +65,3 @@ class ParticipantAssignment(BaseModel):
                 name='unique_session_participant'
             ),
         ]
-
-# class

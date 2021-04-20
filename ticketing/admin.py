@@ -3,10 +3,10 @@ from .models import TicketCategory, Priority, TicketStatus, Ticket, TicketMessag
 
 
 class TicketCategoryAdmin(ModelAdmin):
-    list_display = ['pk', 'title', 'creator', 'created_date', 'modified_date']
+    list_display = ['pk', 'title', 'related_creator', 'created_date', 'modified_date']
 
 class PriorityAdmin(ModelAdmin):
-    list_display = ['pk', 'title', 'creator', 'created_date', 'modified_date']
+    list_display = ['pk', 'title', 'related_creator', 'created_date', 'modified_date']
 
 class TicketStatusAdmin(ModelAdmin):
     list_display = ['pk', 'title']
@@ -24,13 +24,13 @@ class TicketCommentAdmin(ModelAdmin):
     list_display = ['pk', 'related_ticket', 'text']
 
 class TicketCategoryUserAssignmentAdmin(ModelAdmin):
-    list_display = ['pk', 'related_ticket_category', 'related_user', 'creator']
+    list_display = ['pk', 'related_ticket_category', 'related_user', 'related_creator']
 
 class TicketCategoryReferRequestAdmin(ModelAdmin):
-    list_display = ['pk', 'related_ticket', 'related_ticket_category', 'creator']
+    list_display = ['pk', 'related_ticket', 'related_ticket_category', 'related_creator']
 
 class UserReferRequestAdmin(ModelAdmin):
-    list_display = ['pk', 'related_ticket', 'related_user', 'creator']
+    list_display = ['pk', 'related_ticket', 'related_user', 'related_creator']
 
 
 site.register(TicketCategory, TicketCategoryAdmin)

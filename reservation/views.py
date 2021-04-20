@@ -1,20 +1,20 @@
 from rest_framework.viewsets import ModelViewSet
 from reservation.serializers import (
-    SessionRequestSchedulerSerializer,
-    SessionRequestAdminSerializer, SessionRequestCustomerSerializer, ParticipantSerializer,
+    ServiceRequestSchedulerSerializer,
+    ServiceRequestAdminSerializer, ServiceRequestCustomerSerializer, ParticipantSerializer,
     ParticipantAssignmentSerializer,
 )
 from base import permissions
 from rest_framework import permissions as base_permissions
-from .models import SessionRequest, Participant, ParticipantAssignment
+from .models import ServiceRequest, Participant, ParticipantAssignment
 
 
-class SessionRequestViewSet(ModelViewSet):
+class ServiceRequestViewSet(ModelViewSet):
     """
-    The view is for SessionRequest model
+    The view is for ServiceRequest model
     """
-    serializer_class = SessionRequestAdminSerializer
-    queryset = SessionRequest.objects.all()
+    serializer_class = ServiceRequestAdminSerializer
+    queryset = ServiceRequest.objects.all()
     permission_classes = [
         base_permissions.IsAuthenticated,
         permissions.IsAdminOrModifierSchedulerOrReadOnly,
@@ -23,16 +23,16 @@ class SessionRequestViewSet(ModelViewSet):
     def get_serializer_class(self):
         """
         This method return serializer class as follows:
-        if user is admin return SessionRequestAdminSerializer
-        if user is scheduler return SessionRequestSchedulerSerializer
-        if user is customer return SessionRequestCustomerSerializer
+        if user is admin return ServiceRequestAdminSerializer
+        if user is scheduler return ServiceRequestSchedulerSerializer
+        if user is customer return ServiceRequestCustomerSerializer
         """
         if self.request.user.is_superuser:
-            return SessionRequestAdminSerializer
+            return ServiceRequestAdminSerializer
         elif self.request.user.check_group('scheduler'):
-            return SessionRequestSchedulerSerializer
+            return ServiceRequestSchedulerSerializer
         elif self.request.user.check_group('customer'):
-            return SessionRequestCustomerSerializer
+            return ServiceRequestCustomerSerializer
 
     def perform_create(self, serializer):
         """
@@ -47,7 +47,7 @@ class SessionRequestViewSet(ModelViewSet):
         if user is customer return your self session requests queryset
         """
         if self.request.user.check_group('customer'):
-            return SessionRequest.objects.filter(related_customer=self.request.user.id)
+            return ServiceRequest.objects.filter(related_customer=self.request.user.id)
         return super().get_queryset()
 
 
