@@ -1,5 +1,6 @@
 from django.db.models import CharField, Index, ForeignKey, SET_NULL, CASCADE
 from base.models import BaseModel
+from video_cake_manager import settings
 
 
 class Service(BaseModel):
@@ -89,4 +90,19 @@ class ServiceFieldAssignment(BaseModel):
         indexes = [
             Index(fields=['related_service']),
             Index(fields=['related_service_field']),
+            Index(fields=['related_service_field', 'related_service']),
+        ]
+
+
+class SubscriptionAssignment(BaseModel):
+    related_subscription = ForeignKey(to=Subscription, on_delete=CASCADE)
+    related_customer = ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=CASCADE)
+
+    class Meta:
+        verbose_name = 'انتساب اشتراک'
+        verbose_name_plural = 'انتساب اشتراک ها'
+        indexes = [
+            Index(fields=['related_subscription']),
+            Index(fields=['related_customer']),
+            Index(fields=['related_subscription', 'related_customer']),
         ]
