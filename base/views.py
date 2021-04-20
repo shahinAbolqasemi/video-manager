@@ -48,7 +48,7 @@ class BaseViewSet(ModelViewSet):
     def perform_create(self, serializer):
         if self.request.user:
             print(self.request.user)
-            return serializer.save(creator_id=self.request.user.id, is_active=True)
+            return serializer.save(related_creator_id=self.request.user.id, is_active=True)
         else:
             return serializer.save(creator=None, is_active=True)
 
