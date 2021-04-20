@@ -1,15 +1,12 @@
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager, Group
-from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.core.mail import send_mail
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from base.models import BaseModel
+from plan.models import Service, ServiceField
 
 
 class ServiceRequest(BaseModel):
-    nodes_count = models.PositiveIntegerField(verbose_name=_('nodes count'))
     groups_count = models.PositiveIntegerField(verbose_name=_('group count'))
     unique_id = models.CharField(verbose_name=_('unique id'), max_length=5, unique=True)
     related_customer = models.ForeignKey(
@@ -30,6 +27,34 @@ class ServiceRequest(BaseModel):
         related_name='%(class)s_participants_related',
         related_query_name='%(class)s_participants'
     )
+
+
+class SessionRequestServiceFieldAssignment(BaseModel):
+    related_service = models.ForeignKey(
+        verbose_name=_('service'),
+        to=Service,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='%(class)s_service_related',
+        related_query_name='%(class)s_service'
+    )
+    related_service_request = models.ForeignKey(
+        verbose_name=_('service request'),
+        to=ServiceRequest,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='%(class)s_service_request_related',
+        related_query_name='%(class)s_service_request'
+    )
+    related_service_field = models.ForeignKey(
+        verbose_name=_('service field'),
+        to=ServiceField,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='%(class)s_service_field_related',
+        related_query_name='%(class)s_service_field'
+    )
+    amount = models.IntegerField(verbose_name=_('amount'), default=0)
 
 
 class Participant(BaseModel):

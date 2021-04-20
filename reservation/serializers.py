@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from reservation.models import Participant, ParticipantAssignment, ServiceRequest
+from reservation.models import Participant, ParticipantAssignment, ServiceRequest, SessionRequestServiceFieldAssignment
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
@@ -77,3 +77,13 @@ class ServiceRequestCustomerSerializer(serializers.ModelSerializer):
             'start_date',
             'end_date',
         ]
+
+
+class SessionRequestServiceFieldAssignmentSerializer(serializers.ModelSerializer):
+    """
+    The serializer for SessionRequestServiceFieldAssignment model
+    """
+
+    class Meta:
+        model = SessionRequestServiceFieldAssignment
+        fields = '__all__'

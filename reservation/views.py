@@ -1,12 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
+
+from base.views import BaseViewSet
 from reservation.serializers import (
     ServiceRequestSchedulerSerializer,
     ServiceRequestAdminSerializer, ServiceRequestCustomerSerializer, ParticipantSerializer,
-    ParticipantAssignmentSerializer,
+    ParticipantAssignmentSerializer, SessionRequestServiceFieldAssignmentSerializer,
 )
 from base import permissions
 from rest_framework import permissions as base_permissions
-from .models import ServiceRequest, Participant, ParticipantAssignment
+from .models import ServiceRequest, Participant, ParticipantAssignment, SessionRequestServiceFieldAssignment
 
 
 class ServiceRequestViewSet(ModelViewSet):
@@ -87,3 +89,8 @@ class ParticipantAssignmentViewSet(ModelViewSet):
         Here set to applicant user
         """
         serializer.save(related_creator=self.request.user)
+
+
+class SessionRequestServiceFieldAssignmentViewSet(BaseViewSet):
+    queryset = SessionRequestServiceFieldAssignment.objects.all()
+    serializer_class = SessionRequestServiceFieldAssignmentSerializer
