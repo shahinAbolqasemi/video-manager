@@ -8,6 +8,9 @@ class Command(BaseCommand):
         'scheduler': [
             'view_user',
         ],
+        'customer': [
+            'view_user',
+        ],
     }
 
     def handle(self, *args, **options):
