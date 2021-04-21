@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from base.views import BaseViewSet
+from base.views import BaseViewSet, BaseReadOnlyViewSet
 from .models import TicketCategory, TicketStatus, Ticket, TicketMessage, TicketFileAttachment, TicketComment, \
-    TicketCategoryUserAssignment, TicketCategoryReferRequest, UserReferRequest
+    TicketCategoryUserAssignment, TicketCategoryReferRequest, UserReferRequest, Priority
 from .serializers import TicketCategorySerializer, TicketStatusSerializer, TicketSerializer, TicketMessageSerializer, \
     TicketFileAttachmentSerializer, TicketCommentSerializer, TicketCategoryUserAssignmentSerializer, \
-    TicketCategoryReferRequestSerializer, UserReferRequestSerializer
+    TicketCategoryReferRequestSerializer, UserReferRequestSerializer, PrioritySerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
@@ -25,7 +25,6 @@ class TicketStatusViewSet(BaseViewSet):
     search_fields = ['title']
 
 
-
 class TicketViewSet(BaseViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
@@ -33,7 +32,6 @@ class TicketViewSet(BaseViewSet):
     filterset_fields = ['subject', 'related_priority', 'related_ticket_category', 'related_subscription',
                         'related_ticket_status', 'referred_to_ticket_category', 'referred_to_user']
     search_fields = ['subject']
-
 
 
 class TicketMessageViewSet(BaseViewSet):
@@ -76,3 +74,8 @@ class UserReferRequestViewSet(BaseViewSet):
     serializer_class = UserReferRequestSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['related_ticket', 'related_user']
+
+
+class PriorityViewSet(BaseReadOnlyViewSet):
+    queryset = Priority.objects.all()
+    serializer_class = PrioritySerializer
