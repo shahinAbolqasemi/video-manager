@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from reservation.models import Participant, ParticipantAssignment, ServiceRequest, SessionRequestServiceFieldAssignment
+from reservation.models import Participant, ParticipantAssignment, ServiceRequest, ServiceRequestServiceFieldAssignment
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
@@ -49,7 +49,6 @@ class ServiceRequestSchedulerSerializer(serializers.ModelSerializer):
     """
     related_creator = serializers.PrimaryKeyRelatedField(read_only=True)
     related_customer = serializers.PrimaryKeyRelatedField(read_only=True)
-    nodes_count = serializers.ReadOnlyField()
     groups_count = serializers.ReadOnlyField()
     unique_id = serializers.ReadOnlyField()
     start_date = serializers.ReadOnlyField()
@@ -72,7 +71,6 @@ class ServiceRequestCustomerSerializer(serializers.ModelSerializer):
             'id',
             'unique_id',
             'is_accepted',
-            'nodes_count',
             'groups_count',
             'start_date',
             'end_date',
@@ -85,5 +83,5 @@ class SessionRequestServiceFieldAssignmentSerializer(serializers.ModelSerializer
     """
 
     class Meta:
-        model = SessionRequestServiceFieldAssignment
+        model = ServiceRequestServiceFieldAssignment
         fields = '__all__'
