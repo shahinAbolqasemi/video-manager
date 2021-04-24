@@ -47,3 +47,4 @@ class SubscriptionAssignmentViewSet(BaseViewSet):
     queryset = SubscriptionAssignment.objects.all()
     serializer_class = SubscriptionAssignmentSerializer
     permission_classes = [permissions.IsAuthenticated]
+
