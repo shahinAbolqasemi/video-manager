@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from django.contrib.auth import get_user_model
 from .serializers import UserAdminSerializer, UserSchedulerSerializer, UserCustomerSerializer
 from . import permissions
@@ -51,6 +51,10 @@ class BaseViewSet(ModelViewSet):
             return serializer.save(related_creator_id=self.request.user.id, is_active=True)
         else:
             return serializer.save(creator=None, is_active=True)
+
+
+class BaseReadOnlyViewSet(ReadOnlyModelViewSet):
+    pass
 
 
 def index(request):
