@@ -1,6 +1,8 @@
 from django.db.models import CharField, Index, ForeignKey, SET_NULL, CASCADE
 from base.models import BaseModel
+from plan.managers import ActiveSubscriptionManager
 from video_cake_manager import settings
+from django.db import models
 
 
 class Service(BaseModel):
@@ -66,6 +68,7 @@ class ServiceField(BaseModel):
 class SubscriptionServiceAssignmentField(BaseModel):
     related_subscription_service_assignment = ForeignKey(SubscriptionServiceAssignment, on_delete=CASCADE)
     related_service_field = ForeignKey(ServiceField, on_delete=SET_NULL, blank=True, null=True)
+    amount = models.IntegerField(verbose_name='مقدار')
 
     def __str__(self):
         return str(self.pk)
@@ -97,6 +100,9 @@ class ServiceFieldAssignment(BaseModel):
 class SubscriptionAssignment(BaseModel):
     related_subscription = ForeignKey(to=Subscription, on_delete=CASCADE)
     related_customer = ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=CASCADE)
+    expire_date = models.DateTimeField(verbose_name='تاریخ انقضا')
+    active = ActiveSubscriptionManager()
+    objects = models.Manager()
 
     class Meta:
         verbose_name = 'انتساب اشتراک'
