@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
 from base.views import BaseViewSet
+from plan.models import SubscriptionAssignment, ServiceField, SubscriptionServiceAssignmentField
 from reservation.serializers import (
     ServiceRequestSchedulerSerializer,
     ServiceRequestAdminSerializer, ServiceRequestCustomerSerializer, ParticipantSerializer,
@@ -8,7 +9,9 @@ from reservation.serializers import (
 )
 from base import permissions
 from rest_framework import permissions as base_permissions
-from .models import ServiceRequest, Participant, ParticipantAssignment, SessionRequestServiceFieldAssignment
+from .models import ServiceRequest, Participant, ParticipantAssignment, ServiceRequestServiceFieldAssignment
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class ServiceRequestViewSet(ModelViewSet):
@@ -52,6 +55,14 @@ class ServiceRequestViewSet(ModelViewSet):
             return ServiceRequest.objects.filter(related_customer=self.request.user.id)
         return super().get_queryset()
 
+    def create(self, request, *args, **kwargs):
+        print(request.data.get('related_customer'))
+        if SubscriptionAssignment.active.filter(related_customer=request.data.get('related_customer')).exists():
+            return super().create(request, *args, **kwargs)
+        else:
+            content = {'error': 'nothing to see here'}
+            return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
 class ParticipantViewSet(ModelViewSet):
     """
@@ -91,6 +102,21 @@ class ParticipantAssignmentViewSet(ModelViewSet):
         serializer.save(related_creator=self.request.user)
 
 
-class SessionRequestServiceFieldAssignmentViewSet(BaseViewSet):
-    queryset = SessionRequestServiceFieldAssignment.objects.all()
+class ServiceRequestServiceFieldAssignmentViewSet(BaseViewSet):
+    queryset = ServiceRequestServiceFieldAssignment.objects.all()
     serializer_class = SessionRequestServiceFieldAssignmentSerializer
+
+    def create(self, request, *args, **kwargs):
+        amount = request.data.get('amount')
+        subscription_service_assignment_field = SubscriptionServiceAssignmentField.objects.filter(
+            related_service_field=ServiceField.objects.get(id=request.data.get('related_service_field')))
+        if SubscriptionAssignment.active.filter(
+                related_customer=ServiceRequest.objects.get(id=request.data.get('related_service_request')).related_customer,
+                related_subscription__subscriptionserviceassignment__subscriptionserviceassignmentfield__amount__gte=amount,
+                related_subscription__subscriptionserviceassignment__subscriptionserviceassignmentfield__in=subscription_service_assignment_field,
+                related_subscription__subscriptionserviceassignment__related_service_id=request.data.get('related_service')
+        ).exists():
+            return super().create(request, *args, **kwargs)
+        else:
+            content = {'error': 'nothing to see here'}
+            return Response(content, status=status.HTTP_406_NOT_ACCEPTABLE)
