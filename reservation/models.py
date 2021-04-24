@@ -8,7 +8,7 @@ from plan.models import Service, ServiceField
 
 class ServiceRequest(BaseModel):
     groups_count = models.PositiveIntegerField(verbose_name=_('group count'))
-    unique_id = models.CharField(verbose_name=_('unique id'), max_length=5, unique=True)
+    unique_id = models.CharField(verbose_name=_('unique id'), max_length=5)
     related_customer = models.ForeignKey(
         verbose_name=_('customer'),
         to=settings.AUTH_USER_MODEL,
@@ -23,13 +23,13 @@ class ServiceRequest(BaseModel):
         verbose_name=_('participants'),
         to='Participant',
         through='ParticipantAssignment',
-        through_fields=('related_session_request', 'related_participant'),
+        through_fields=('related_service_request', 'related_participant'),
         related_name='%(class)s_participants_related',
         related_query_name='%(class)s_participants'
     )
 
 
-class SessionRequestServiceFieldAssignment(BaseModel):
+class ServiceRequestServiceFieldAssignment(BaseModel):
     related_service = models.ForeignKey(
         verbose_name=_('service'),
         to=Service,
@@ -66,7 +66,7 @@ class Participant(BaseModel):
 
 
 class ParticipantAssignment(BaseModel):
-    related_session_request = models.ForeignKey(
+    related_service_request = models.ForeignKey(
         verbose_name=_('service request'),
         to='ServiceRequest',
         on_delete=models.PROTECT,
@@ -86,7 +86,7 @@ class ParticipantAssignment(BaseModel):
         verbose_name_plural = _('participant assignments')
         constraints = [
             models.UniqueConstraint(
-                fields=('related_session_request', 'related_participant'),
-                name='unique_session_participant'
+                fields=('related_service_request', 'related_participant'),
+                name='unique_service_participant'
             ),
         ]
