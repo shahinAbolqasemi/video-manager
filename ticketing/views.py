@@ -34,9 +34,9 @@ class TicketViewSet(BaseViewSet):
     search_fields = ['subject']
 
     def get_queryset(self):
+        user_ticket_categories = TicketCategory.objects.filter(ticketcategoryuserassignment__related_user=self.request.user)
         if self.request.user.is_authenticated:
-            return Ticket.objects.filter(
-                related_ticket_category__ticketcategoryuserassignment__related_user=self.request.user)
+            return Ticket.objects.filter(referred_to_ticket_category__in=user_ticket_categories)
         return super().get_queryset()
 
 
