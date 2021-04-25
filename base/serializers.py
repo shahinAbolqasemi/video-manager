@@ -18,6 +18,10 @@ class UserAdminSerializer(serializers.ModelSerializer):
         validated_data['password'] = make_password(validated_data.get('password'))
         return super().create(validated_data)
 
+    def update(self, instance, validated_data):
+        validated_data['password'] = make_password(validated_data.get('password'))
+        return super().update(instance, validated_data)
+
 
 class UserSchedulerSerializer(serializers.ModelSerializer):
     """
@@ -40,6 +44,10 @@ class UserSchedulerSerializer(serializers.ModelSerializer):
         validated_data['password'] = make_password(validated_data.get('password'))
         return super().create(validated_data)
 
+    def update(self, instance, validated_data):
+        validated_data['password'] = make_password(validated_data.get('password'))
+        return super().update(instance, validated_data)
+
 
 class UserCustomerSerializer(serializers.ModelSerializer):
     """
@@ -55,4 +63,3 @@ class UserCustomerSerializer(serializers.ModelSerializer):
             'last_name',
             'email',
         ]
-
