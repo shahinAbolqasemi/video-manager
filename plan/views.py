@@ -23,6 +23,8 @@ class SubscriptionViewSet(BaseViewSet):
 class SubscriptionServiceAssignmentViewSet(BaseViewSet):
     queryset = SubscriptionServiceAssignment.objects.all()
     serializer_class = SubscriptionServiceAssignmentSerializer
+    ilter_backends = [DjangoFilterBackend]
+    filterset_fields = ['related_subscription']
 
 
 class ServiceFieldViewSet(BaseViewSet):
@@ -33,6 +35,8 @@ class ServiceFieldViewSet(BaseViewSet):
 class SubscriptionServiceAssignmentFieldViewSet(BaseViewSet):
     queryset = SubscriptionServiceAssignmentField.objects.all()
     serializer_class = SubscriptionServiceAssignmentFieldSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['related_subscription_service_assignment']
 
 
 class ServiceFieldAssignmentViewSet(BaseViewSet):
