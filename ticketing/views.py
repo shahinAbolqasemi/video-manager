@@ -41,6 +41,14 @@ class TicketViewSet(BaseViewSet):
                 return Ticket.objects.filter(referred_to_ticket_category__in=user_ticket_categories)
         return super().get_queryset()
 
+    def perform_create(self, serializer):
+        return serializer.save(
+            referred_to_ticket_category=TicketCategory.objects.get(id=self.request.data.get('related_ticket_category')))
+
+    def perform_update(self, serializer):
+        return serializer.save(
+            referred_to_ticket_category=TicketCategory.objects.get(id=self.request.data.get('related_ticket_category')))
+
 
 class TicketMessageViewSet(BaseViewSet):
     queryset = TicketMessage.objects.all()
