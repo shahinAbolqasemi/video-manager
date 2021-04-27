@@ -77,9 +77,9 @@ class ServiceRequestCustomerSerializer(serializers.ModelSerializer):
         ]
 
 
-class SessionRequestServiceFieldAssignmentSerializer(serializers.ModelSerializer):
+class ServiceRequestServiceFieldAssignmentSerializer(serializers.ModelSerializer):
     """
-    The serializer for SessionRequestServiceFieldAssignment model
+    The serializer for ServiceRequestServiceFieldAssignment model
     """
 
     class Meta:

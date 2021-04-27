@@ -1,11 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
-
 from base.views import BaseViewSet
 from plan.models import SubscriptionAssignment, ServiceField, SubscriptionServiceAssignmentField
 from reservation.serializers import (
     ServiceRequestSchedulerSerializer,
     ServiceRequestAdminSerializer, ServiceRequestCustomerSerializer, ParticipantSerializer,
-    ParticipantAssignmentSerializer, SessionRequestServiceFieldAssignmentSerializer,
+    ParticipantAssignmentSerializer, ServiceRequestServiceFieldAssignmentSerializer,
 )
 from base import permissions
 from rest_framework import permissions as base_permissions
@@ -104,7 +103,7 @@ class ParticipantAssignmentViewSet(ModelViewSet):
 
 class ServiceRequestServiceFieldAssignmentViewSet(BaseViewSet):
     queryset = ServiceRequestServiceFieldAssignment.objects.all()
-    serializer_class = SessionRequestServiceFieldAssignmentSerializer
+    serializer_class = ServiceRequestServiceFieldAssignmentSerializer
 
     def create(self, request, *args, **kwargs):
         amount = request.data.get('amount')
