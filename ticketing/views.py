@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from rest_framework.parsers import MultiPartParser
+
 from base.views import BaseViewSet, BaseReadOnlyViewSet
 from .models import TicketCategory, TicketStatus, Ticket, TicketMessage, TicketFileAttachment, TicketComment, \
     TicketCategoryUserAssignment, TicketCategoryReferRequest, UserReferRequest, Priority
@@ -60,6 +62,7 @@ class TicketMessageViewSet(BaseViewSet):
 class TicketFileAttachmentViewSet(BaseViewSet):
     queryset = TicketFileAttachment.objects.all()
     serializer_class = TicketFileAttachmentSerializer
+    parser_classes = [MultiPartParser]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['related_ticket_message']
 
